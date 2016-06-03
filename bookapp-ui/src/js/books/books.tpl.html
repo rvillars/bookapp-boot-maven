@@ -1,0 +1,71 @@
+<div>
+    <form id="form" name="form">
+        <fieldset>
+            <legend>Current Book</legend>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="title">Title</label>
+                    <input id="title" required type="text" ng-model="bookCtrl.currentBook.title" placeholder="Enter a book title..." class="form-control"/>
+                </div>
+                <div class=" form-group col-md-6">
+                    <label for="releasedate">Release date</label>
+                    <div class="input-group">
+                        <input id="releasedate" type="text" ng-model="bookCtrl.currentBook.releasedate" uib-datepicker-popup="dd.MM.yyyy" is-open="bookCtrl.opened" class="form-control"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="bookCtrl.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i>&nbsp;</button>
+                        </span>
+                    </div>
+                </div>
+                <div class=" form-group col-md-6">
+                    <label for="author">Author</label>
+                    <select id="author" required ng-model="bookCtrl.currentBook.author"
+                            ng-options="author._links.self.href as (author.firstname + ' ' + author.lastname) for author in bookCtrl.authors" class="form-control">
+                        <option value="">-- choose author --</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="id" ng-show="bookCtrl.showId">Id</label>
+                    <input id="id" type="text" disabled="disabled" ng-model="bookCtrl.currentBook.id" ng-show="bookCtrl.showId" class="form-control"/>
+                </div>
+            </div>
+        </fieldset>
+        <button id="save" ng-click="bookCtrl.save()" ng-disabled="form.$invalid" class="btn btn-primary">Save Book</button>
+        <button id="cancel" ng-click="bookCtrl.cancel()" class="btn">Cancel</button>
+    </form>
+
+    <div id="list">
+        <fieldset>
+            <legend>Books</legend>
+            <div class="checkbox">
+                <label for="showId">
+                    <input id="showId" type="checkbox" ng-model="bookCtrl.showId">Show Id</input>
+                </label>
+            </div>
+            <table id="table" class="table table-striped table-bordered table-condensed">
+                <thead>
+                <tr>
+                    <th>Titel</th>
+                    <th>Release Date</th>
+                    <th>Author</th>
+                    <th ng-show="bookCtrl.showId">Id</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="book in bookCtrl.books">
+                    <td>{{book.title}}</td>
+                    <td>{{book.releasedate | date:'dd.MM.yyyy'}}</td>
+                    <td>{{book.author.firstname}} {{book.author.lastname}}</td>
+                    <td ng-show="bookCtrl.showId">{{book.id}}</td>
+                    <td>
+                        <button id="edit" ng-click="bookCtrl.edit(book)" class="btn btn-xs">Edit</button>
+                    </td>
+                    <td>
+                        <button id="delete" ng-click="bookCtrl.remove($index, book.id)" class="btn btn-xs">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>

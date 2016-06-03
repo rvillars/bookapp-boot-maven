@@ -1,0 +1,10 @@
+*.sw*
+*~
+build/
+bin/
+node_modules/
+vendor/
+dependencies/
+bower_components
+.c9
+npm-debug.log
